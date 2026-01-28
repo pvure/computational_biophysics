@@ -1,0 +1,31 @@
+Goal: To observe the easiest ways in which a shape (a protein) can deform. 
+
+Proteins aren't static, and their motion is often grounded in functional requirement. 
+For example, myosin's lever arm swinging is how muscles contract. 
+Simulating protein motion with full physics (molecular dynamics) is incredibly computationally expensive. 
+An anisotropic network model is a shortcut that answers the question of "what is the easiest way in which this shape(protein) can deform?"
+Imagine a protein as a network of balls, which are the alpha carbon atoms (one per residue). 
+These balls are connected by springs. 
+
+If two atoms are closer than some cutoff distance, connect them with a spring 
+Assume all springs have the same stiffness
+The most simple form of this model considers no chemistry, no electrostatics, no water. 
+
+It works under the assumption that a protein's architecture constrains motion. 
+A long floppy loop will move more than a tightly packed core, regardless of atomic information. 
+
+Math:
+
+When you displace atoms from equilibrium positions, the springs push back. 
+The Hessian matrix encodes the information of how much atom j feels a push in atom i. 
+For N atoms we have 3N coordinates (x, y, z). So the Hessian is a 3Nx3N matrix. 
+
+we can calculate -GAMMA * np.outer(d_vec, d_vec) / dist_sq
+
+This finds the force between atoms i and j acting along the line that connects them 
+(outer(d_vec, d_vec)). 
+
+When we solve for the eigenvalues and the eigenvectors of the hessian, we are essentially asking what the natural 
+vibration patterns of the spring network are. 
+
+Individual eigenvalues quantify the stiffness of this motion. Eigenvectors represent the actual displacement pattern, in 3N dimensional vectors. 
