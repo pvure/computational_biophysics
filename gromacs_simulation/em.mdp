@@ -1,0 +1,16 @@
+constraints         =  none
+integrator          =  steep
+nsteps              =  5000
+
+emtol               =  1000
+emstep              =  0.01
+dt                  =  0.001
+
+ns_type             =  grid
+rlist               =  1.2
+rcoulomb            =  1.2
+rvdw                =  1.2
+vdw-type            =  cut-off
+Tcoupl              =  no
+Pcoupl              =  no
+gen_vel             =  no

@@ -29,3 +29,4 @@ When we solve for the eigenvalues and the eigenvectors of the hessian, we are es
 vibration patterns of the spring network are. 
 
 Individual eigenvalues quantify the stiffness of this motion. Eigenvectors represent the actual displacement pattern, in 3N dimensional vectors. 
+

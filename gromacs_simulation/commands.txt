@@ -1,0 +1,27 @@
+
+gmx pdb2gmx -f ebola-vp35-chainA.pdb -o prot.gro -p prot.top -ff amber03 -water tip3p
+
+gmx editconf -c -f prot.gro -o prot_box.gro -bt dodecahedron -d 1.0
+
+gmx solvate -cp prot_box.gro -cs -o prot_solv.gro -p prot.top
+
+gmx grompp -f em.mdp -c prot_solv.gro -p prot.top -o prot_solv.tpr
+
+gmx genion -s prot_solv.tpr -o prot_ions.gro -p prot.top -conc 0.10 -neutral
+
+gmx grompp -f em.mdp -c prot_ions.gro -p prot.top -o prot_min.tpr -maxwarn 1
+
+gmx mdrun -v -deffnm prot_min 
+
+gmx grompp -f pr.mdp -c prot_min.gro -r prot_min.gro -p prot.top -o prot_equil.tpr
+# may need add -maxwarn 2 option, but should always look at warnings first!
+
+gmx mdrun -v -deffnm prot_equil
+
+gmx grompp -f npt.mdp -c prot_equil.gro -p prot.top -o prot_md.tpr
+
+gmx mdrun -v -deffnm prot_md
+
+# look at contents xtc file
+gmx dump -f prot_md.xtc
+
